@@ -36,11 +36,12 @@ btnPlay.addEventListener("click",function(){
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyEz.value));
         console.log(generatedNumber)
 
-        const generatedRandomNumber = getRandomNumber(16)
+        // generate bomb
+        const generatedRandomNumber = getRandomNumber(parseInt(difficultyEz.value))
         console.log(generatedRandomNumber)
         
         // generate boxes in the html
-        const box = boxGenerator(generatedNumber, "level-size-easy");
+        const box = boxGenerator(generatedNumber, "level-size-easy", generatedRandomNumber);
         // LEVEL MEDIUM
     }else if (difficultyMid.selected == true){
         grid.innerHTML = ""
@@ -48,18 +49,25 @@ btnPlay.addEventListener("click",function(){
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyMid.value));
         console.log(generatedNumber)
 
-        
+        // generate bomb
+        const generatedRandomNumber = getRandomNumber(parseInt(difficultyMid.value));
+        console.log(generatedRandomNumber)
+
         // generate boxes in the html
-        const box = boxGenerator(generatedNumber, "level-size-medium");
-    // LVEL HARD
+        const box = boxGenerator(generatedNumber, "level-size-medium", generatedRandomNumber);
+    // LVEL HARD 
     }else if(difficultyHard.selected == true){
         grid.innerHTML = ""
         // generate number
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyHard.value));
-        
         console.log(generatedNumber)
+
+        // generate bomb
+        const generatedRandomNumber = getRandomNumber (parseInt(difficultyHard.value));
+        console.log(generatedRandomNumber)
+
         // generate boxes in the html
-        const box = boxGenerator(generatedNumber, "level-size-hard");
+        const box = boxGenerator(generatedNumber, "level-size-hard", generatedRandomNumber);
         // NO LEVEL SELCTED
     }else{
         alert ("Scegli una difficoltà")
@@ -93,10 +101,10 @@ function consecutiveNumberGen (arrayLenght){
  * @param {number} bombNumber
  * @returns {object} bombs  
  */
- function getRandomNumber(bombNumber) {
+ function getRandomNumber(numberGenerated) {
     const bombs = [];
-    while (bombs.length < bombNumber) {
-    const randomNumber = Math.floor(Math.random() * bombNumber + 1);
+    while (bombs.length < 16) {
+    const randomNumber = Math.floor(Math.random() * numberGenerated + 1);
     if (!bombs.includes(randomNumber)) {
       bombs.push(randomNumber);
     }
@@ -110,9 +118,10 @@ function consecutiveNumberGen (arrayLenght){
  * create the grid boxes generator and use the result of consecutiveNumberGen as a param
  * @param {Array} numberOfBoxes
  * @param {string} levelBoxSize adds css class size that depend on the difficulty levele chosed
+ * @param {Array} randomBomb 
  * @returns {object} 
  */
-function boxGenerator(numberOfBoxes, levelBoxSize) {
+function boxGenerator(numberOfBoxes, levelBoxSize, randomBomb) {
     for(let i = 1; i <= numberOfBoxes.length; i++){
         let number = i;
         let gridBox = document.createElement("div")
@@ -120,16 +129,18 @@ function boxGenerator(numberOfBoxes, levelBoxSize) {
         gridBox.classList.add(levelBoxSize);
         gridBox.innerHTML = number;
         gridBox.addEventListener("click", function(){
-            this.classList.toggle("bg-blue");
-        console.log(i)
+            const boxTXT = parseInt(gridBox.innerHTML);
+            if (randomBomb.includes(boxTXT)){
+                this.classList.add("bg-bomb");
+            } else{
+                this.classList.add("bg-empty");
+            }
+            
+            
         })
         grid.append(gridBox)
     }
 }
-
-
-
-
 
 
 

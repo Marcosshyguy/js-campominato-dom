@@ -5,8 +5,12 @@
 }
 
 /* color */
-.bg-blue{
+.bg-empty{
     background-color: aqua;
+}
+
+.bg-bomb{
+    background-color: red;
 }
 /* common */
 /* section */
