@@ -31,14 +31,19 @@ const difficultyHard = difficulty.options[1];
 btnPlay.addEventListener("click",function(){
     // LEVEL EASY
     if(difficultyEz.selected == true){
-        // generate number
+        grid.innerHTML = ""
+        // generate the number of the box
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyEz.value));
         console.log(generatedNumber)
+
+        const generatedRandomNumber = getRandomNumber(16)
+        console.log(generatedRandomNumber)
         
         // generate boxes in the html
         const box = boxGenerator(generatedNumber, "level-size-easy");
         // LEVEL MEDIUM
     }else if (difficultyMid.selected == true){
+        grid.innerHTML = ""
         // generate number
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyMid.value));
         console.log(generatedNumber)
@@ -48,6 +53,7 @@ btnPlay.addEventListener("click",function(){
         const box = boxGenerator(generatedNumber, "level-size-medium");
     // LVEL HARD
     }else if(difficultyHard.selected == true){
+        grid.innerHTML = ""
         // generate number
         const generatedNumber = consecutiveNumberGen (parseInt(difficultyHard.value));
         
@@ -63,10 +69,12 @@ btnPlay.addEventListener("click",function(){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // FUNCTION
+
+
 /**
  * function that gives you an arry with consecutive number   
  * @param {number}} arrayLenght
- * @returns {number} boxNumber
+ * @returns {array} boxNumber
  */
 function consecutiveNumberGen (arrayLenght){
     let boxNumber = []
@@ -75,6 +83,25 @@ function consecutiveNumberGen (arrayLenght){
         
     }
     return boxNumber
+}
+
+
+// create a random number generator with function that produce number between two ranges min max and that doesn't produce duplicated numbers
+
+/**
+ * bomb number generator from 1 to how many bombs we want
+ * @param {number} bombNumber
+ * @returns {object} bombs  
+ */
+ function getRandomNumber(bombNumber) {
+    const bombs = [];
+    while (bombs.length < bombNumber) {
+    const randomNumber = Math.floor(Math.random() * bombNumber + 1);
+    if (!bombs.includes(randomNumber)) {
+      bombs.push(randomNumber);
+    }
+  }
+    return bombs;
 }
 
 // Ui Function
@@ -94,7 +121,7 @@ function boxGenerator(numberOfBoxes, levelBoxSize) {
         gridBox.innerHTML = number;
         gridBox.addEventListener("click", function(){
             this.classList.toggle("bg-blue");
-            console.log(i)
+        console.log(i)
         })
         grid.append(gridBox)
     }
@@ -103,22 +130,6 @@ function boxGenerator(numberOfBoxes, levelBoxSize) {
 
 
 
-// create a random number generator with function that produce number between two ranges min max and that doesn't produce duplicated numbers
 
-/**
- * bomb number generator from 1 to how many bombs we want
- * @param {number} bombNumber
- * @returns {object} bombs  
- */
-function getRandomNumber(bombNumber) {
-    const bombs = [];
-    while (bombs.length < bombNumber) {
-    const randomNumber = Math.floor(Math.random() * bombNumber + 1);
-    if (!bombs.includes(randomNumber)) {
-      bombs.push(randomNumber);
-    }
-  }
-    return bombs;
-}
 
 
